@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Review extends Model
+{
+    /**
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'product_id',
+        'user_id',
+        'rating',
+        'comment',
+    ];
+
+    /**
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'rating' => 'integer',
+    ];
+
+    /**
+     * @return BelongsTo<Product, Review>
+     */
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * @return BelongsTo<User, Review>
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+}

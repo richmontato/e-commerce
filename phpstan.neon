@@ -1,0 +1,17 @@
+includes:
+    - vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+
+    paths:
+        - app/
+        - routes/
+        - database/seeders/
+        - database/factories/
+
+    level: max
+
+    ignoreErrors:
+        - '#PHPDoc tag @var#'
+
+    checkMissingIterableValueType: false

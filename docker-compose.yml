@@ -1,0 +1,44 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel_app
+    user: root
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./init.sh:/usr/local/bin/init.sh
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    entrypoint: ["bash", "/usr/local/bin/init.sh"]
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: pmkitagachor
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    
+  node:
+    image: node:lts
+    container_name: node_dev_server
+    user: root
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev -- --host"
+
+volumes:
+  db_data:
